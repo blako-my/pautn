@@ -90,7 +90,7 @@ body {
 #socials a:hover{
   color: var(--th-accent) !important;
 }
-#links a{
+.links a{
   margin: 20px auto;
   display: flex;
   flex-direction: column;
@@ -104,7 +104,17 @@ body {
   text-decoration: none;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
-#links a:hover{
+.links a:hover{
   transform: translateY(-3px);
   box-shadow: 0 0 10px var(--th-accent);
+}
+.products{
+  color:var(--th-accent);
+}
+.products img{
+  display: block;
+  margin: 0 auto 10px auto;
+  max-height: 30vh;
+  max-width: 100%;
+  object-fit: contain;
 }

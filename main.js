@@ -1,241 +1,134 @@
-const adsense = document.createElement('script');
-adsense.async = true;
-adsense.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5514264872807416";
-adsense.crossOrigin = "anonymous";
-document.head.appendChild(adsense);
-//<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5514264872807416" crossorigin="anonymous"></script>
 async function initpage(){
-    const error = document.getElementById('error');
-    const query = window.location.search;
-    const hash = window.location.hash;
-    if(hash.startsWith('#'))
-    {
-        //username = query.slice(2);
-        const username = hash.substring(1);
-        try{
-            const userresponse = await fetch(`${username}.user`);
-            const userdata = await userresponse.json();
-            if(userdata !== "")
-            {
-                //* THEME
-                const activetheme = userdata.theme || 'default';
-                document.body.setAttribute('th-theme', activetheme);
-                let favicon = document.querySelector('link[rel="icon"]');
-                //* FAVICON
-                if(userdata.profile.icon && userdata.profile.icon.trim !== ""){
-                    favicon.href = userdata.profile.icon;
-                }
-                else{
-                    favicon.href = 'assets/default-icon.png';
-                }
-                //* PROFILE
-                const profileimg = document.createElement('img');
-                if(userdata.profile.img && userdata.profile.img.trim !== ""){
-                    profileimg.src = userdata.profile.img;
-                }
-                else{
-                    profileimg.src = 'assets/default-profile.png';
-                }
-                profileimg.classList.add('rounded-circle');
-                document.getElementById('profile').appendChild(profileimg);
-                if(userdata.profile.username && userdata.profile.username.trim !== ""){
-                    if(userdata.profile.name && userdata.profile.name.trim !== ""){
-                        document.title = userdata.profile.name;
-                    }
-                    else{
-                        document.title = '@'+userdata.profile.username;
-                    }
-                    const username = document.createElement('h3');
-                    username.textContent = '@'+userdata.profile.username;
-                    document.getElementById('profile').appendChild(username);
-                }
-                if(userdata.profile.bio && userdata.profile.bio.trim !== ""){
-                    const bio = document.createElement('p');
-                    bio.classList.add('w-50','mx-auto','opacity-75');
-                    bio.textContent = `${userdata.profile.bio}`;
-                    document.getElementById('profile').appendChild(bio);
-                }
-                userdata.order.forEach(section => {
-                    sectiondata = userdata.sections[section];
-                    switch(section){
-                        case 'socials':
-                            rendersocials(sectiondata);
-                            break;
-                        case 'featured':
-                            break;
-                        case 'products':
-                            renderproducts(sectiondata);
-                            break;
-                        case 'links':
-                            renderlinks(sectiondata);
-                            break;
-                        default:
-                            break;
-                    }
-                });
-            }
-        }
-        catch(err){
-            error.innerHTML = `User Data Not Found`;
-            document.title = `User Data Not Found`;
-            return;
-        }
-    }
-    else
-    {
-        window.location.href = 'home.html';
-        return;
-    }
-
-}
-function rendersocials(socials){
-    const container = document.createElement('div');
-    container.id = 'socials';
-    for (const [id, social] of Object.entries(socials)) {
-        const element = document.createElement('a');
-        const label = social.name.toLowerCase().split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
-        element.href = social.url;
-        element.classList.add('th-fg');
-        element.target = '_blank';
-        element.title = label;
-        if(social.icon && social.icon.trim() !== "") {
-            const socialimg = document.createElement('i');
-            socialimg.className = social.icon;
-            element.appendChild(socialimg);
-        }
-        else
-        {
-            element.textContent = social.name;
-        }
-        container.appendChild(element);
-    }
-    document.getElementById('sections').appendChild(container);
-}
-function renderproducts(products)
-{
-    const container = document.createElement('div');
-    container.id = 'products';
-    container.style = 'display: grid; grid-template-columns: repeat(3,1fr); gap: 10px;';
-    for (const [id,product] of Object.entries(products ?? {}))
-    {
-        const element = document.createElement('a');
-        element.textContent = product.label;
-        element.style = 'border-radius: 10px;';
-        element.classList.add('th-surface', 'th-accent-text', 'th-border', 'p-2', 'm-2','text-decoration-none','d-block','text-center');
-        // Add Image if it exists
-        if (product.img && product.img.trim() !== "") {
-            const img = document.createElement('img');
-            img.src = product.img;
-            img.alt = product.label;
-            img.style = 'display: block; margin: 0 auto 10px auto; max-height: 30vh; max-width: 100%; object-fit: contain;';
-            element.appendChild(img);
-        }
-        if (product.url && product.url.trim() !== "") {
-            element.href = product.url;
-            element.target = '_blank';
-        }
-        container.appendChild(element);
-    }
-    document.getElementById('sections').appendChild(container);
-}
-function renderlinks(links){
-    const container = document.createElement('div');
-    container.id = 'links';
-    for (const [id,link] of Object.entries(links)) {
-        const element = document.createElement('a');
-        element.href = link.url;
-        element.target = '_blank';
-        element.textContent = link.name;
-        element.classList.add('th-surface', 'th-accent-text', 'th-border');
-        container.appendChild(element);
-    }
-    document.getElementById('sections').appendChild(container);
-}
-async function initedit(){
+    const search = window.location.search ? window.location.search.slice(1) : null;
+    const hash = window.location.hash ? window.location.hash.slice(1) : null;
+    const username = search || hash;
+    console.log(username);
+    const errordiv = document.getElementById('error');
     try{
-        const response = await fetch('config.json');
-        const config = await response.json();
-        const activetheme = config.theme || 'default';
-        document.body.setAttribute('th-theme', activetheme);
-
-        const query = window.location.search;
-        if(query.startsWith('#'))
+        const response = await fetch(`${username}.user`);
+        const data = await response.json();
+        if(data !== "")
         {
-            const username = query.slice(2);
-            const h2 = document.createElement('h2');
-            h2.textContent = `Editing @${username}`;
-            h2.classList.add('th-accent-text', 'text-center', 'mb-4');
-            document.getElementById('container').appendChild(h2);
-
-            try {
-                const response = await fetch(`${username}.user`);
-                const userdata = await response.json();
-                const profileditor = document.createElement('div');
-                profileditor.id = 'profileeditor';
-                profileditor.classList.add('mb-4','th-border','th-surface','p-3','rounded');
-                profileditor.innerHTML = `${JSON.stringify(userdata, null, 2)}`;
-                document.getElementById('container').appendChild(profileditor);
-            } catch (error) {
-                errormessage(`User Not Found`);
+            //* THEME
+            const activetheme = data.theme || 'default';
+            document.body.setAttribute('th-theme', activetheme);
+            userasset = 'assets/' + data.profile.username + '/';
+            //* PROFILE
+            profilediv = document.getElementById('profile');
+            profile = data.profile;
+            let favicon = document.querySelector('link[rel="icon"]');
+            if(profile.img && profile.img.trim() !== "")
+            {
+                favicon.href = profile.img.replace("@/", userasset);
+                const profileimg = document.createElement('img');
+                profileimg.src = profile.img.replace("@/",userasset);
+                profileimg.classList.add('rounded-circle');
+                profilediv.appendChild(profileimg);
             }
-        }
-        else
-        {
-            const h2 = document.createElement('h2');
-            h2.textContent = 'User List';
-            h2.classList.add('th-accent-text', 'text-center', 'mb-4');
-            document.getElementById('container').appendChild(h2);
-
-            userlist = document.createElement('div');
-            userlist.id = 'userlist';
-            document.getElementById('container').appendChild(userlist);
-            for (const [id, user] of Object.entries(config.users)) {
-                const userelement = document.createElement('a');
-                userelement.href = `edit.html?@${user.name}`;
-                userelement.textContent = user.label;
-                userelement.classList.add('th-surface', 'th-accent-text', 'th-border', 'd-block', 'text-center', 'p-2', 'mb-2','text-decoration-none');
-                document.getElementById('userlist').appendChild(userelement);
+            if(profile.username && profile.username.trim()  !== "")
+            {
+                usernametxt = '@'+profile.username;
+                if(profile.name && profile.name.trim()  !== "")
+                {
+                    labeltxt = profile.name;
+                }
+                else
+                {
+                    labeltxt = usernametxt;
+                }
+                document.title = labeltxt;
+                const username = document.createElement('h3');
+                username.textContent = usernametxt;
+                profilediv.appendChild(username);
             }
+            if(profile.bio && profile.bio.trim() !== ""){
+                const bio = document.createElement('p');
+                bio.classList.add('w-50','mx-auto','opacity-75');
+                bio.textContent = profile.bio;
+                profilediv.appendChild(bio);
+            }
+            //* SOCIALS
+            socials = data.socials;
+            if(socials && socials.trim !== "")
+            {
+                container = document.createElement('div');
+                container.id = 'socials';
+                socials.forEach(social =>{
+                    const element = document.createElement('a');
+                    const label = social.name.toLowerCase().split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+                    element.href = social.url;
+                    element.classList.add('th-fg');
+                    element.target = '_blank';
+                    element.title = label;
+                    if(social.icon && social.icon.trim() !== "") {
+                        const img = document.createElement('i');
+                        img.className = social.icon;
+                        element.appendChild(img);
+                    }
+                    else
+                    {
+                        element.textContent = social.name;
+                    }
+                    container.appendChild(element);
+                });
+                profilediv.appendChild(container);
+            }
+            //* SECTIONS
+            const sectiondiv = document.getElementById('sections');
+            sections = data.sections;
+            sections.forEach(section => {
+                if(section.title && section.title.trim() !== "")
+                {
+                    h = document.createElement('h3');
+                    h.innerHTML = section.title;
+                    h.classList.add('text-center');
+                    sectiondiv.appendChild(h);
+                }
+
+                if(section.type == "links" && section.content )
+                {
+                    container = document.createElement('div');
+                    container.className = "links";
+                    section.content.forEach(link =>{
+                        element = document.createElement('a');
+                        element.href = link.url;
+                        element.target = '_blank';
+                        element.textContent = link.name;
+                        element.classList.add('th-surface', 'th-accent-text', 'th-border');
+                        container.appendChild(element);
+                    });
+                    sectiondiv.appendChild(container);
+                }
+                else if(section.type == "products" && section.content )
+                {
+                    container = document.createElement('div');
+                    container.className = 'products';
+                    container.style = 'display: grid; grid-template-columns: repeat(3,1fr); gap: 10px;';
+                    section.content.forEach(product =>{
+                        element = document.createElement('a');
+                        element.textContent = product.label;
+                        element.style = 'border-radius: 10px;';
+                        element.classList.add('th-surface', 'th-fg', 'th-border', 'p-2', 'm-2','text-decoration-none','d-block','text-center');
+                        // Add Image if it exists
+                        if (product.img && product.img.trim() !== "") {
+                            const img = document.createElement('img');
+                            img.src = product.img.replace("@/", userasset);
+                            img.alt = product.label;
+                            element.appendChild(img);
+                        }
+                        if (product.url && product.url.trim() !== "") {
+                            element.href = product.url;
+                            element.target = '_blank';
+                        }
+                        container.appendChild(element);
+                    });
+                    sectiondiv.appendChild(container);
+                }
+            });
         }
     }
-    catch(err){
-        errormessage(`Config Not Found`);
+    catch(error){
+        errordiv.innerHTML = "Error:" + error;
         return;
     }
 }
-function errormessage(message){
-    const error = document.getElementById('error');
-    error.innerHTML = message;
-    document.title = message;
-}
-document.addEventListener('DOMContentLoaded', () => {
-    footertxt = `
-    <footer class="th-bg th-fg py-3 mt-5">
-        <div class="text-center mb-2">
-            <p class="mb-0">
-                Want your own link aggregator?
-                <a href="https://github.com/darwishzain/link-aggregator" class="th-accent-text fw-bold" style="text-decoration: none;">
-                    Build your own
-                </a>
-                or
-                <a href="https://github.com/darwishzain/link-aggregator" class="th-accent-text fw-bold" style="text-decoration: none;">
-                    Create yours
-                </a>
-            </p>
-        </div>
-        <div class="container text-center">
-            <small>
-                © 2025 Darwish Zain Studio. All rights reserved. |
-                <a href="https://github.com/darwishzain/link-aggregator" class="text-decoration-none th-fg" target="_blank" rel="noopener noreferrer">
-                    View on GitHub
-                </a>|
-                <a href="https://opensource.org/licenses/MIT" class="text-decoration-none th-fg" target="_blank" rel="noopener noreferrer">
-                    MIT License
-                </a>
-            </small>
-        </div>
-    </footer>`;
-    const footer = document.createElement('footer');
-    footer.innerHTML = footertxt;
-    document.body.appendChild(footer);
-});
