@@ -5,14 +5,22 @@
         "img":"@/logo.png",
         "bio":"I build Stream Toolkit and this"
     },
-    "theme":"midnight",
+    "theme":"cyber",
     "sections":[
         {
             "type":"links",
             "content":[
                 {
-                    "name":"Laman Sesawang Statik",
-                    "url":"https://wa.me/601137535178"
+                    "name":"Nak hasilkan website mudah? Klik sini.",
+                    "url":"https://wa.me/601137535178?text=Website%20Mudah"
+                },
+                {
+                    "name":"Optimumkan Google Maps Bisnes Anda",
+                    "url":"https://wa.me/601137535178?text=Google%20Map"
+                },
+                {
+                    "name":"Link in bio sendiri",
+                    "url":"https://wa.me/601137535178?text=Link%20in%20Bio"
                 },
                 {
                     "name": "Live Streaming Toolkit",

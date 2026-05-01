@@ -2,7 +2,6 @@ async function initpage(){
     const search = window.location.search ? window.location.search.slice(1) : null;
     const hash = window.location.hash ? window.location.hash.slice(1) : null;
     const username = search || hash;
-    console.log(username);
     const errordiv = document.getElementById('error');
     try{
         const response = await fetch(`${username}.user`);
@@ -94,7 +93,7 @@ async function initpage(){
                         element.href = link.url;
                         element.target = '_blank';
                         element.textContent = link.name;
-                        element.classList.add('th-surface', 'th-accent-text', 'th-border');
+                        element.classList.add( 'th-fg', 'th-border');
                         container.appendChild(element);
                     });
                     sectiondiv.appendChild(container);
@@ -103,12 +102,10 @@ async function initpage(){
                 {
                     container = document.createElement('div');
                     container.className = 'products';
-                    container.style = 'display: grid; grid-template-columns: repeat(3,1fr); gap: 10px;';
                     section.content.forEach(product =>{
                         element = document.createElement('a');
                         element.textContent = product.label;
-                        element.style = 'border-radius: 10px;';
-                        element.classList.add('th-surface', 'th-fg', 'th-border', 'p-2', 'm-2','text-decoration-none','d-block','text-center');
+                        element.classList.add('th-border', 'p-2', 'm-1');
                         // Add Image if it exists
                         if (product.img && product.img.trim() !== "") {
                             const img = document.createElement('img');

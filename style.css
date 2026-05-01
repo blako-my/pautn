@@ -57,6 +57,9 @@ body {
   display: flex;
   flex-direction: column;
 }
+a{
+  text-decoration: none;
+}
 #profile img{
   width: clamp(60px, 15vw, 120px); /* scales with screen */
   aspect-ratio: 1 / 1;             /* keeps it square */
@@ -106,15 +109,35 @@ body {
 }
 .links a:hover{
   transform: translateY(-3px);
+  background-color: var(--th-accent);
   box-shadow: 0 0 10px var(--th-accent);
 }
 .products{
-  color:var(--th-accent);
+  display:grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 10px;
+  align-items: center;
+}
+.products a{
+  padding:10px;
+  height: 100%;
+  border-radius: 10px;
+  color:var(--th-fg);
+  display: block;
+  text-align: center;
+  background-color: var(--th-surface);
+}
+.products a:hover{
+  transform: translateY(-3px);
+  background-color: var(--th-accent);
+  box-shadow: 0 0 10px var(--th-accent);
 }
 .products img{
   display: block;
   margin: 0 auto 10px auto;
-  max-height: 30vh;
+  height: auto;
+  /*max-height: 30vh;
+  width: 100%;*/
   max-width: 100%;
   object-fit: contain;
 }
