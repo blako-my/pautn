@@ -1,3 +1,12 @@
+window.addEventListener('load', function() {
+if (window.location.search.includes('fbclid') || window.location.search.includes('utm_')) {
+    // Create a clean version of the URL
+    const cleanUrl = window.location.origin + window.location.pathname;
+    // Update the address bar without reloading the page
+    window.history.replaceState({}, document.title, cleanUrl);
+    console.log("Instagram tracking parameters omitted.");
+}
+});
 async function initpage(){
     const search = window.location.search ? window.location.search.slice(1) : null;
     const hash = window.location.hash ? window.location.hash.slice(1) : null;
