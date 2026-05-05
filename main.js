@@ -1,19 +1,15 @@
 (function() {
     // 1. Capture the username hash BEFORE cleaning
-    const currentHash = window.location.hash; 
-
+    const currentHash = window.location.hash;
     // 2. Check if the "junk" (search params) exists
     if (window.location.search.length > 0) {
-      
       // 3. Rebuild: Base URL + the Hash we saved
-      const cleanUrl = window.location.origin + 
-                       window.location.pathname + 
-                       currentHash;
+        const cleanUrl = window.location.origin + window.location.pathname + currentHash;
 
       // 4. Update the address bar
-      window.history.replaceState({}, document.title, cleanUrl);
+        window.history.replaceState({}, document.title, cleanUrl);
     }
-  })();
+})();
 async function initpage(){
     const search = window.location.search ? window.location.search.slice(1) : null;
     const hash = window.location.hash ? window.location.hash.slice(1) : null;
