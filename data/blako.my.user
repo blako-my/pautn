@@ -1,0 +1,108 @@
+{
+    "profile":{
+        "username":"blako.my",
+        "name":"Blako Enterprise",
+        "img":"",
+        "bio":"sikit-sikit"
+    },
+    "theme":"cyber",
+    "sections":[
+        {
+            "type":"links",
+            "content":[
+                {
+                    "name":"Laman Web Brosur",
+                    "url":"https://wa.me/601137535178?text=Laman%20Web"
+                },
+                {
+                    "name":"Update Google Map Kedai",
+                    "url":"https://wa.me/601137535178?text=Google%20Map"
+                },
+                {
+                    "name":"Kad Nama Digital",
+                    "url":"https://wa.me/601137535178?text=Link%20in%20Bio"
+                },
+                {
+                    "name": "Live Streaming Toolkit",
+                    "url": "https://github.com/darwishzain/stream-toolkit"
+                }
+            ]
+        },
+        {
+            "type":"products",
+            "title":"Produk",
+            "content":[
+                {
+                    "label":"Honey Squeeze 350g",
+                    "type":"product",
+                    "img":"@/030.jpeg",
+                    "url":"https://wa.me/c/601137535178"
+                },
+                {
+                    "label":"Honey Lime 350g",
+                    "type":"product",
+                    "img":"@/035.jpeg",
+                    "url":"https://wa.me/c/601137535178"
+                },
+                {
+                    "label":"Madu Stick 50",
+                    "type":"product",
+                    "img":"@/200.jpeg",
+                    "url":"https://wa.me/c/601137535178"
+                },
+                {
+                    "label":"Honey Lime 720g",
+                    "type":"product",
+                    "img":"@/072.jpeg",
+                    "url":"https://wa.me/c/601137535178"
+                },
+                {
+                    "label":"Madu Stick 100",
+                    "type":"product",
+                    "img":"@/100.jpeg",
+                    "url":"https://wa.me/c/601137535178"
+                },
+                {
+                    "label":"Madu Stick 200",
+                    "type":"product",
+                    "img":"@/200.jpeg",
+                    "url":"https://wa.me/c/601137535178"
+                },
+                {
+                    "label": "Luno",
+                    "type":"referral",
+                    "img":"https://framerusercontent.com/images/iwCmTrjcCzqEqGCgCGVr84H7oAY.png",
+                    "url": "https://www.luno.com/wallet/rewards/enter_code?code=AE8932"
+                },
+                {
+                    "label": "Setel",
+                    "type":"referral",
+                    "img": "https://www.setel.com/assets/logo.svg",
+                    "url": "https://www.setel.com/ref/tkcm7"
+                }
+            ]
+        }
+    ],
+    "socials": [
+        {
+            "name":"Github",
+            "url":"https://github.com/darwishzain",
+            "icon":"bi bi-github"
+        },
+        {
+            "name":"Instagram",
+            "url":"https://instagram.com/blako.my",
+            "icon":"bi bi-instagram"
+        },
+        {
+            "name":"Tiktok",
+            "url":"https://tiktok.com/@blako.my",
+            "icon":"bi bi-tiktok"
+        },
+        {
+            "name":"Signal",
+            "url":"https://signal.me/#eu/i2GEFe4cb2NwGbH9jvUGeqxsMNSp2LZuU1OO_P9JBkULq4L_jnNJ0b-cMnQHfqe0",
+            "icon":"bi bi-signal"
+        }
+    ]
+}
