@@ -10,13 +10,18 @@
         window.history.replaceState({}, document.title, cleanUrl);
     }
 })();
+const adsense = document.createElement('script');
+adsense.async = true;
+adsense.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5514264872807416";
+adsense.crossOrigin = "anonymous";
+document.head.appendChild(adsense);
 async function initpage(){
     const search = window.location.search ? window.location.search.slice(1) : null;
     const hash = window.location.hash ? window.location.hash.slice(1) : null;
     const username = search || hash;
     const errordiv = document.getElementById('error');
     try{
-        const response = await fetch(`${username}.user`);
+        const response = await fetch(`data/${username}.user`);
         const data = await response.json();
         if(data !== "")
         {
