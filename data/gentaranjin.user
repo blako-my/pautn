@@ -79,12 +79,6 @@
                     "type":"referral",
                     "img": "https://www.setel.com/assets/logo.svg",
                     "url": "https://www.setel.com/ref/tkcm7"
-                },
-                {
-                    "label": "Kinokuniya",
-                    "type":"affiliate",
-                    "img":"https://malaysia.kinokuniya.com/assets/logo/logo_MALAYSIA-1358e40cbb734e5456ca05bdf290ad86.png",
-                    "url":"https://atmy.me/go/yTXODEiH"
                 }
             ]
         }
