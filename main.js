@@ -16,10 +16,16 @@ adsense.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?cl
 adsense.crossOrigin = "anonymous";
 document.head.appendChild(adsense);
 async function initpage(){
-    const search = window.location.search ? window.location.search.slice(1) : null;
-    const hash = window.location.hash ? window.location.hash.slice(1) : null;
-    const username = search || hash;
     const errordiv = document.getElementById('error');
+    if (typeof passusername !== 'undefined') {
+        const username = passusername;
+    }
+    else
+    {
+        const search = window.location.search ? window.location.search.slice(1) : null;
+        const hash = window.location.hash ? window.location.hash.slice(1) : null;
+        const username = search || hash;
+    }
     try{
         const response = await fetch(`data/${username}.user`);
         const data = await response.json();
@@ -28,7 +34,7 @@ async function initpage(){
             //* THEME
             const activetheme = data.theme || 'default';
             document.body.setAttribute('th-theme', activetheme);
-            userasset = 'assets/' + data.profile.username + '/';
+            userasset = 'uploads/' + data.profile.username + '/';
             //* PROFILE
             profilediv = document.getElementById('profile');
             profile = data.profile;
