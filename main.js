@@ -17,15 +17,9 @@ adsense.crossOrigin = "anonymous";
 document.head.appendChild(adsense);
 async function initpage(){
     const errordiv = document.getElementById('error');
-    if (typeof passusername !== 'undefined') {
-        const username = passusername;
-    }
-    else
-    {
-        const search = window.location.search ? window.location.search.slice(1) : null;
-        const hash = window.location.hash ? window.location.hash.slice(1) : null;
-        const username = search || hash;
-    }
+    const search = window.location.search ? window.location.search.slice(1) : null;
+    const hash = window.location.hash ? window.location.hash.slice(1) : null;
+    const username = search || hash;
     try{
         const response = await fetch(`data/${username}.user`);
         const data = await response.json();
