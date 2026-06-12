@@ -1,4 +1,4 @@
-(function() {
+/*(function() {
     // 1. Capture the username hash BEFORE cleaning
     const currentHash = window.location.hash;
     // 2. Check if the "junk" (search params) exists
@@ -10,25 +10,35 @@
         window.history.replaceState({}, document.title, cleanUrl);
     }
 })();
-const adsense = document.createElement('script');
-adsense.async = true;
-adsense.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5514264872807416";
-adsense.crossOrigin = "anonymous";
-document.head.appendChild(adsense);
-async function initpage(){
-    const errordiv = document.getElementById('error');
-    const search = window.location.search ? window.location.search.slice(1) : null;
-    const hash = window.location.hash ? window.location.hash.slice(1) : null;
-    const username = search || hash;
+*/
+function showdialog(dialog,content,mode=null)
+{
+    content = `<button class="btn float-end text-danger" onclick="document.getElementById('dialog').close()">x</button><br>` + content;
+    dialog.innerHTML = content;
+    if(mode != null)
+    {
+        switch (mode) {
+            case 'error':
+                dialog.className = 'border border-2 border-danger';
+                break;
+            default:
+                break;
+        }
+    }
+    dialog.showModal();
+}
+async function generatepage(id){
+    const dialog = document.getElementById('dialog');
+    const filepath = `data/${id}.user`;
     try{
-        const response = await fetch(`data/${username}.user`);
+        const response = await fetch(filepath);
         const data = await response.json();
         if(data !== "")
         {
             //* THEME
             const activetheme = data.theme || 'default';
             document.body.setAttribute('th-theme', activetheme);
-            userasset = 'uploads/' + data.profile.username + '/';
+            userasset = 'uploads/' + id + '/';
             //* PROFILE
             profilediv = document.getElementById('profile');
             profile = data.profile;
@@ -142,7 +152,7 @@ async function initpage(){
         }
     }
     catch(error){
-        errordiv.innerHTML = "Error:" + error;
+        showdialog(dialog,error,'error');
         return;
     }
 }
