@@ -152,7 +152,8 @@ async function generatepage(id){
         }
     }
     catch(error){
-        showdialog(dialog,error,'error');
+        //showdialog(dialog,error,'error');
+        window.location.href = "error.html";
         return;
     }
 }
