@@ -153,6 +153,7 @@ async function generatepage(id){
     }
     catch(error){
         //showdialog(dialog,error,'error');
+        alert('Ralat:' + error);
         window.location.href = "error.html";
         return;
     }
