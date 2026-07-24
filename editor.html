@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pautn Editor</title>
+    <link id="favicon" rel="icon" href="uploads/default-icon.png" type="image/x-icon">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+</head>
+<body class="container">
+    <div class="row h-100">
+        <div class="col-12 col-md-6 mb-3">
+            <form id="editorform" action="" class="">
+                <label for="username">Username</label>
+                <input class="form-control" type="text" name="username" id="username">
+                <label for="name">Name</label>
+                <input class="form-control" type="text" name="name" id="name">
+                <label for="bio">Bio</label>
+                <input class="form-control" type="text" name="bio" id="bio">
+                <label for="theme">Theme</label>
+                <select class="form-control" name="theme" id="theme">
+                    <option value="default">Default</option>
+                    <option value="midnight">Midnight</option>
+                    <option value="nordic">Nordic</option>
+                    <option value="cyber">Cyber</option>
+                    <option value="forest">Forest</option>
+                    <option value="terminal">terminal</option>
+                </select>
+                <br>
+                <button id="copyBtn" class="form-control"><i class="bi bi-copy"></i></button>
+            </form>
+        </div>
+        <div class="col-12 col-md-6 mb-3">
+            <textarea name="preview" id="preview" class="h-100 w-100" style="resize:none"></textarea>
+        </div>
+    </div>
+</body>
+</html>
+<script>
+editorform = document.getElementById('editorform');
+preview = document.getElementById('preview');
+profilekey = ['username','name','bio'];
+
+editorform.addEventListener('keyup',refeshpreview);
+editorform.addEventListener('change',refeshpreview);
+
+function refeshpreview(event){
+    if(event.target.matches('input,textarea,select')){
+        preview.innerHTML = '{\n';
+        //THEME
+        themeelement = document.getElementById('theme');
+        if(themeelement.value.trim() !== ""){
+            preview.innerHTML += `\t"theme":"${themeelement.value}"`
+        }
+        //PROFILE
+        preview.innerHTML += ',\n\t"profile":{\n';
+        const lines = profilekey
+            .map(key => document.getElementById(key))
+            .filter(el => el && el.value.trim() !== "")
+            .map(el => `\t\t"${el.id}": "${el.value}"`);
+        preview.innerHTML += lines.join(",\n");
+        preview.innerHTML += '\n\t}';
+        
+
+        //closing
+        preview.innerHTML += '\n}';
+    }
+}
+document.getElementById('copyBtn').addEventListener('click', async (e) => {
+    e.preventDefault(); 
+    const textToCopy = document.getElementById('preview').value;
+    try {
+        await navigator.clipboard.writeText(textToCopy);
+        alert('Copied!');
+    } catch (err) {
+        alert('Failed to copy.');
+    }
+});
+</script>
