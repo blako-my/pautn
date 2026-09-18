@@ -14,12 +14,7 @@
     <div class="row h-100">
         <div class="col-12 col-md-6 mb-3">
             <form id="editorform" action="" class="">
-                <label for="username">Username</label>
-                <input class="form-control" type="text" name="username" id="username">
-                <label for="name">Name</label>
-                <input class="form-control" type="text" name="name" id="name">
-                <label for="bio">Bio</label>
-                <input class="form-control" type="text" name="bio" id="bio">
+                <div class="row"><div class="col-12 text-center">Style</div></div>
                 <label for="theme">Theme</label>
                 <select class="form-control" name="theme" id="theme">
                     <option value="default">Default</option>
@@ -29,17 +24,29 @@
                     <option value="forest">Forest</option>
                     <option value="terminal">terminal</option>
                 </select>
+                <div class="row"><div class="col-12 text-center">Profile</div></div>
+                <label for="username">Username</label>
+                <input class="form-control" type="text" name="username" id="username" required>
+                <label for="name">Name</label>
+                <input class="form-control" type="text" name="name" id="name">
+                <label for="bio">Bio</label>
+                <input class="form-control" type="text" name="bio" id="bio">
                 <br>
-                <button id="copyBtn" class="form-control"><i class="bi bi-copy"></i></button>
             </form>
         </div>
         <div class="col-12 col-md-6 mb-3">
-            <textarea name="preview" id="preview" class="h-100 w-100" style="resize:none"></textarea>
+            <div class="row w-100 my-1">
+                <div class="col-4 text-center"><span id="status" class="badge rounded-pill d-inline-flex align-items-center text-xs text-wrap-none bg-success">Active  </span></div>
+                <div class="col-4"><button id="downloadButton" class="form-control btn btn-primary"><i class="bi bi-download"></i></button></div>
+                <div class="col-4"><button id="copyBtn" class="form-control btn btn-primary"><i class="bi bi-copy"></i></button></div>
+            </div>
+            <textarea name="preview" id="preview" class="h-75 w-100" style="resize:none"></textarea>
         </div>
     </div>
 </body>
 </html>
 <script>
+statusbar = document.getElementById('status');
 editorform = document.getElementById('editorform');
 preview = document.getElementById('preview');
 profilekey = ['username','name','bio'];
@@ -48,6 +55,7 @@ editorform.addEventListener('keyup',refeshpreview);
 editorform.addEventListener('change',refeshpreview);
 
 function refeshpreview(event){
+    statusbar.textContent = "Updating";
     if(event.target.matches('input,textarea,select')){
         preview.innerHTML = '{\n';
         //THEME
@@ -63,12 +71,22 @@ function refeshpreview(event){
             .map(el => `\t\t"${el.id}": "${el.value}"`);
         preview.innerHTML += lines.join(",\n");
         preview.innerHTML += '\n\t}';
-        
-
         //closing
         preview.innerHTML += '\n}';
     }
+    statusbar.textContent = "Updated";
 }
+document.getElementById('downloadButton').addEventListener('click',function(){
+    const text = document.getElementById('preview').value;
+    const blob = new Blob([text], {type: "application/json;charset=utf-8"});
+    //Download
+    const downloadLink = document.createElement("a");
+    downloadLink.href = URL.createObjectURL(blob);
+    downloadLink.download = document.getElementById('username').value + ".user";
+    document.body.appendChild(downloadLink);
+    downloadLink.click();
+    document.body.removeChild(downloadLink);
+});
 document.getElementById('copyBtn').addEventListener('click', async (e) => {
     e.preventDefault(); 
     const textToCopy = document.getElementById('preview').value;
